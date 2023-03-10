@@ -15,7 +15,7 @@
     <p>Sports management software for the sports enthusiast</p>
     <nav>
         <ul>
-            <li><a href="/project_start/tech_support/">Home</a></li>
+            <li><a href="/SportsPro/System/">Home</a></li>
         </ul>
     </nav>
 </header>
