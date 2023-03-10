@@ -1,4 +1,4 @@
-# SportsPro-Technical-Support
+# SportsPro Technical Support
 
 <b>Repository for CIS 3300 - Intermediate Object-Oriented Programming - Northwestern State University.</b>
 <br>
