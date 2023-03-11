@@ -1,7 +1,7 @@
 <?php include 'view/header.php'; ?>
 <main>
     <nav>
-    <h2>Administrators</h2>
+    <h2>Administratorsss</h2>
     <ul>
         <li><a href="product_manager">Manage Products</a></li>
         <li><a href="technician_manager">Manage Technicians</a></li>
