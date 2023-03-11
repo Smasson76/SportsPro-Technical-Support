@@ -6,6 +6,10 @@
 <form action="index.php" method="post" id="register_product_form">
         <input type="hidden" name="action" value="register_product">
 
+        <!-- This is to hold onto the customer id -->
+        <input type="hidden" name="customerID" value="<?php echo $customerName['customerID'];?>"/>
+        <br>
+
         <label>Customer: <?php echo $customerName['firstName']; echo (' ');   echo $customerName['lastName']?></label>
         <input type="hidden" name="customer" value="<?php echo $customerName['firstName']?>"/>
         <br><br>
@@ -13,7 +17,7 @@
         <label>Product:</label>
         <select name="product_list">
         <?php foreach ($products as $product) : ?>
-            <option value="product"><?php echo $product['name']; ?>
+            <option value="<?php echo $product['name']; ?>"><?php echo $product['name']; ?>
         <?php endforeach; ?>
         </select>
         <br><br>

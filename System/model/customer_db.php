@@ -14,7 +14,7 @@ function get_customers() {
 //Get customer's first and last name using the email parameter
 function get_selected_customer_using_firstlast($email) {
     global $db;
-    $query = 'SELECT lastName, firstName FROM customers
+    $query = 'SELECT lastName, firstName, customerID FROM customers
               WHERE customers.email = :email';
     $statement = $db->prepare($query);
     $statement->bindValue(':email', $email);
