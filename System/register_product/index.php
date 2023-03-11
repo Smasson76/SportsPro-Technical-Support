@@ -41,3 +41,5 @@ else if ($action == 'register_product') {
     register_product_to_database($customer_id, $product_code, $date);
     include('register_product_confirmation.php');
 }
+
+?>
