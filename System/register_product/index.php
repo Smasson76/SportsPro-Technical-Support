@@ -17,7 +17,7 @@ if ($action == 'customer_login') {
     include('customer_login.php');
 }
 
-//Search the customer by email
+//Search the customer by email and go to register product page
 else if ($action == 'select_login') {
     $email = filter_input(INPUT_POST, 'email');
     if ($email == NULL || $email == FALSE) {
@@ -29,4 +29,15 @@ else if ($action == 'select_login') {
         $products = get_products();
         include('register_product.php');
     }
+}
+
+//Register the project
+else if ($action == 'register_product') {
+    $customer_id = filter_input(INPUT_POST, 'customerID');
+    $product_name = filter_input(INPUT_POST, 'product_list');
+    $product = get_product_by_id($product_name);
+    $product_code = $product['productCode'];
+    $date = date("Y-d-m");
+    register_product_to_database($customer_id, $product_code, $date);
+    include('register_product_confirmation.php');
 }
