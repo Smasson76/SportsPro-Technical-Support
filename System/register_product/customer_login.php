@@ -9,8 +9,7 @@
 
         <label>Email:</label>
         <input type="text" name="email" />
-        
-        <input type="submit" value="Search" />
+        <input type="submit" value="Login" />
     </form>
 </main>
 <?php include '../view/footer.php'; ?>
