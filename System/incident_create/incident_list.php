@@ -5,25 +5,26 @@
         <!-- Display customer incidents -->
         <table>
             <tr>
-                <th>Incident ID</th>
-                <th>Customer ID</th>
-                <th>Product Code</th>
-                <th>Tech ID</th>
-                <th>Date Opened</th>
-                <th>Date Closed</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Technician</th>
+                <th>Incident</th>
             </tr>
             <?php foreach ($incidents as $incident) : ?>
             <tr>
-                <td><?php echo $incident['incidentID']; ?></td>
                 <td><?php echo $incident['customerID']; ?></td>
                 <td><?php echo $incident['productCode']; ?></td>
                 <td><?php echo $incident['techID']; ?></td>
-                <td><?php echo $incident['dateOpened']; ?></td>
-                <td><?php echo $incident['dateClosed']; ?></td>
+                <td>
+                    <table class="incident-item">
+                        <tr><td class="incident-item">ID:</td><td class="incident-item"><?php echo $incident['incidentID']; ?></td></tr>
+                        <tr><td class="incident-item">Opened:</td><td class="incident-item"><?php echo $incident['dateOpened']; ?></td></tr>
+                        <tr><td class="incident-item">Closed:</td><td class="incident-item"><?php echo $incident['dateClosed']; ?></td></tr>
+                        <tr><td class="incident-item">Title:</td><td class="incident-item"><?php echo $incident['title']; ?></td></tr>
+                        <tr><td class="incident-item">Description:</td><td class="incident-item"><?php echo $incident['description']; ?></td></tr>
+                    </table>
+                </td>
             </tr>
-            <tr><td>Title:</td><td colspan="5"><?php echo $incident['title']; ?></td></tr>
-            <tr><td>Description:</td><td colspan="5"><?php echo $incident['description']; ?></td></tr>
-            <tr><td colspan="6">&nbsp;</td></tr>
             <?php endforeach; ?>
         </table>
         <p><a href="index.php?action=get_customer">Create Incident</a></p>
