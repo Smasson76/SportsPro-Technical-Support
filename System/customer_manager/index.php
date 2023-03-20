@@ -1,6 +1,14 @@
 <?php
 require('../model/database.php');
 require('../model/customer_db.php');
+require('../model/customer_fields_db.php');
+require('../model/validate_customer_db.php');
+
+$validate = new Validate();
+$fields = $validate->getFields();
+$fields->addField('email', 'Use (999)999-9999.');
+$fields->addField('phone', 'Invalid domain name part.');
+
 
 //Create an action that will filter through user buttons then call another function
 $action = filter_input(INPUT_POST, 'action');
@@ -43,6 +51,10 @@ else if ($action == 'select_customer') {
     $phone = filter_input(INPUT_POST, 'phone');
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
+
+    //This is for setting all fields checkers to an empty string
+    $error = '';
+
     if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL) {
         $error = "Missing or incorrect customer id.";
         include('../errors/error.php');
@@ -67,12 +79,25 @@ else if ($action == 'update_customer') {
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
 
+    // Validate form data
+    $validate->phone('phone', $phone);
+
+    // Load appropriate view based on hasErrors
+    if ($fields->hasErrors()) {
+        include 'view_customer.php';
+    } else {
+        update_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
+        include 'view_customer.php';
+    }
+
+    /*
     if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL || $last_name == NULL || $address == NULL || $city == NULL || $state == NULL || $postal_code == NULL || $country_code == NULL || $phone == NULL || $email == NULL || $password == NULL) {
-        $error = "Missing or incorrect customer id.";
+        $error = "Missing or incorrect information.";
         include('../errors/error.php');
     } else { 
         update_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
         include('view_customer.php');
     }
+    */
 }
 ?>

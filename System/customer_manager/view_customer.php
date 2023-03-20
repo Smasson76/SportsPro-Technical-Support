@@ -38,6 +38,7 @@
 
         <label>Phone:</label>
         <input type="text" name="phone" value="<?php echo $phone;?>"/>
+        <?php echo $fields->getField('phone')->getHTML(); ?>
         <br>
 
         <label>Email:</label>
