@@ -48,6 +48,7 @@
 
         <label>Password:</label>
         <input type="text" name="password" value="<?php echo $password;?>"/>
+        <?php echo $fields->getField('passwordVal')->getHTML(); ?>
         <br>
 
         <label>&nbsp;</label>
