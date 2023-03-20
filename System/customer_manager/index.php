@@ -6,8 +6,8 @@ require('../model/validate_customer_db.php');
 
 $validate = new Validate();
 $fields = $validate->getFields();
-$fields->addField('email', 'Use (999)999-9999.');
-$fields->addField('phone', 'Invalid domain name part.');
+$fields->addField('emailVal', 'Invalid domain name part.');
+$fields->addField('phoneVal', 'Use (999)999-9999.');
 
 
 //Create an action that will filter through user buttons then call another function
@@ -53,7 +53,8 @@ else if ($action == 'select_customer') {
     $password = filter_input(INPUT_POST, 'password');
 
     //This is for setting all fields checkers to an empty string
-    $error = '';
+    $emailVal = '';
+    $phoneVal = '';
 
     if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL) {
         $error = "Missing or incorrect customer id.";
@@ -80,7 +81,8 @@ else if ($action == 'update_customer') {
     $password = filter_input(INPUT_POST, 'password');
 
     // Validate form data
-    $validate->phone('phone', $phone);
+    $validate->email('emailVal', $email);
+    $validate->phone('phoneVal', $phone);
 
     // Load appropriate view based on hasErrors
     if ($fields->hasErrors()) {

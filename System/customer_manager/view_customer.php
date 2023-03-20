@@ -38,11 +38,12 @@
 
         <label>Phone:</label>
         <input type="text" name="phone" value="<?php echo $phone;?>"/>
-        <?php echo $fields->getField('phone')->getHTML(); ?>
+        <?php echo $fields->getField('phoneVal')->getHTML(); ?>
         <br>
 
         <label>Email:</label>
         <input type="text" name="email" value="<?php echo $email;?>"/>
+        <?php echo $fields->getField('emailVal')->getHTML(); ?>
         <br>
 
         <label>Password:</label>
