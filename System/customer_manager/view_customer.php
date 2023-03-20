@@ -10,6 +10,7 @@
 
         <label>First Name:</label>
         <input type="text" name="firstName" value="<?php echo $first_name;?>"/>
+        <?php echo $fields->getField('fnameVal')->getHTML(); ?>
         <br>
 
         <label>Last Name:</label>

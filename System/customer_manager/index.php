@@ -6,6 +6,7 @@ require('../model/validate_customer_db.php');
 
 $validate = new Validate();
 $fields = $validate->getFields();
+$fields->addField('fnameVal', 'Must be between 1 and 51 characters.');
 $fields->addField('emailVal', 'Invalid domain name part.');
 $fields->addField('phoneVal', 'Use (999)999-9999.');
 $fields->addField('passwordVal', 'Too short.');
@@ -57,6 +58,7 @@ else if ($action == 'select_customer') {
     $emailVal = '';
     $phoneVal = '';
     $passwordVal = '';
+    $fnameVal = '';
 
     if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL) {
         $error = "Missing or incorrect customer id.";
@@ -86,6 +88,7 @@ else if ($action == 'update_customer') {
     $validate->email('emailVal', $email);
     $validate->phone('phoneVal', $phone);
     $validate->password('passwordVal', $password);
+    $validate->text('fnameVal', $first_name);
 
     // Load appropriate view based on hasErrors
     if ($fields->hasErrors()) {
