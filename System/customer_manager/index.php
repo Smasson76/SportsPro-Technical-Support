@@ -7,9 +7,11 @@ require('../model/validate_customer_db.php');
 $validate = new Validate();
 $fields = $validate->getFields();
 $fields->addField('fnameVal', 'Must be between 1 and 51 characters.');
+$fields->addField('lnameVal', 'Must be between 1 and 51 characters.');
 $fields->addField('emailVal', 'Invalid domain name part.');
 $fields->addField('phoneVal', 'Use (999)999-9999.');
 $fields->addField('passwordVal', 'Too short.');
+$fields->addField('addressVal', 'Too short.');
 
 
 //Create an action that will filter through user buttons then call another function
@@ -59,6 +61,8 @@ else if ($action == 'select_customer') {
     $phoneVal = '';
     $passwordVal = '';
     $fnameVal = '';
+    $lnameVal = '';
+    $addressVal = '';
 
     if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL) {
         $error = "Missing or incorrect customer id.";
@@ -89,6 +93,8 @@ else if ($action == 'update_customer') {
     $validate->phone('phoneVal', $phone);
     $validate->password('passwordVal', $password);
     $validate->text('fnameVal', $first_name);
+    $validate->text('lnameVal', $last_name);
+    $validate->text('addressVal', $address);
 
     // Load appropriate view based on hasErrors
     if ($fields->hasErrors()) {
@@ -97,15 +103,5 @@ else if ($action == 'update_customer') {
         update_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
         include 'view_customer.php';
     }
-
-    /*
-    if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL || $last_name == NULL || $address == NULL || $city == NULL || $state == NULL || $postal_code == NULL || $country_code == NULL || $phone == NULL || $email == NULL || $password == NULL) {
-        $error = "Missing or incorrect information.";
-        include('../errors/error.php');
-    } else { 
-        update_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
-        include('view_customer.php');
-    }
-    */
 }
 ?>

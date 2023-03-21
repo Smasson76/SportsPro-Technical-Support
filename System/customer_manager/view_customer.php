@@ -15,10 +15,12 @@
 
         <label>Last Name:</label>
         <input type="text" name="lastName" value="<?php echo $last_name;?>"/>
+        <?php echo $fields->getField('lnameVal')->getHTML(); ?>
         <br>
 
         <label>Address:</label>
         <input type="text" name="address" value="<?php echo $address;?>"/>
+        <?php echo $fields->getField('addressVal')->getHTML(); ?>
         <br>
 
         <label>City:</label>
