@@ -4,7 +4,7 @@
     <section>
         <!-- display a table of technicians -->
         <table>
-            <tr>
+            <tr><?php // remember the first and last name columns should be combined into one ?>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
@@ -14,6 +14,10 @@
             </tr>
             <?php foreach ($technicians as $technician) : ?>
             <tr>
+                <?php
+                // Remember to replace the query results with method calls
+                // to get properties
+                ?>
                 <td><?php echo $technician['firstName']; ?></td>
                 <td><?php echo $technician['lastName']; ?></td>
                 <td><?php echo $technician['email']; ?></td>
