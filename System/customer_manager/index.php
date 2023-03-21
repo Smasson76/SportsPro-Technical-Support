@@ -4,6 +4,8 @@ require('../model/customer_db.php');
 require('../model/customer_fields_db.php');
 require('../model/validate_customer_db.php');
 
+//Creating a Validate object
+//Creating fields in the field class
 $validate = new Validate();
 $fields = $validate->getFields();
 $fields->addField('fnameVal', 'Must be between 1 and 51 characters.');
@@ -12,6 +14,8 @@ $fields->addField('emailVal', 'Invalid domain name part.');
 $fields->addField('phoneVal', 'Use (999)999-9999.');
 $fields->addField('passwordVal', 'Too short.');
 $fields->addField('addressVal', 'Too short.');
+$fields->addField('cityVal', 'Too short.');
+$fields->addField('postalVal', 'Too short.');
 
 
 //Create an action that will filter through user buttons then call another function
@@ -63,6 +67,8 @@ else if ($action == 'select_customer') {
     $fnameVal = '';
     $lnameVal = '';
     $addressVal = '';
+    $cityVal = '';
+    $postalVal = '';
 
     if ($customer_id == NULL || $customer_id == FALSE || $first_name == NULL) {
         $error = "Missing or incorrect customer id.";
@@ -95,6 +101,8 @@ else if ($action == 'update_customer') {
     $validate->text('fnameVal', $first_name);
     $validate->text('lnameVal', $last_name);
     $validate->text('addressVal', $address);
+    $validate->text('cityVal', $city);
+    $validate->postal('postalVal', $postal_code);
 
     // Load appropriate view based on hasErrors
     if ($fields->hasErrors()) {

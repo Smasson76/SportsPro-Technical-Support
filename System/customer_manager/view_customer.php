@@ -25,6 +25,7 @@
 
         <label>City:</label>
         <input type="text" name="city" value="<?php echo $city;?>"/>
+        <?php echo $fields->getField('cityVal')->getHTML(); ?>
         <br>
 
         <label>State:</label>
@@ -33,6 +34,7 @@
 
         <label>Postal Code:</label>
         <input type="text" name="postalCode" value="<?php echo $postal_code;?>"/>
+        <?php echo $fields->getField('postalVal')->getHTML(); ?>
         <br>
 
         <label>Country Code:</label>
