@@ -5,7 +5,7 @@
 <h1>Customer Login</h1><br>
 <p>You must login before you can register a product.</p>
 <form action="index.php" method="post" id="customer_login_form">
-        <input type="hidden" name="action" value="select_login">
+        <input type="hidden" name="action" value="login">
 
         <label>Email:</label>
         <input type="text" name="email" />

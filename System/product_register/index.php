@@ -3,12 +3,23 @@ require('../model/database.php');
 require('../model/customer_db.php');
 require('../model/product_db.php');
 
+$lifetime = 60 * 60 * 24 * 365;
+session_set_cookie_params($lifetime, '/');
+session_start();
+if (empty($_SESSION['customer'])) {
+    $_SESSION['customer'] = [];
+}
+
 //Create an action that will filter through user buttons then call another function
 $action = filter_input(INPUT_POST, 'action');
 if ($action === NULL) {
     $action = filter_input(INPUT_GET, 'action');
     if ($action === NULL) {
-        $action = 'customer_login';
+        if (isset($_SESSION['customer']['email'])) {
+            $action = 'skip_login';
+        } else {
+            $action = 'customer_login';
+        }
     }
 }
 
@@ -18,22 +29,38 @@ if ($action == 'customer_login') {
 }
 
 //Search the customer by email and go to register product page
-else if ($action == 'select_login') {
+else if ($action == 'login') {
     $email = filter_input(INPUT_POST, 'email');
     if ($email == NULL || $email == FALSE) {
         $error = "Invalid data. Check all fields and try again.";
         include('../errors/error.php');
     } else { 
-        $customer = get_selected_customer_using_email($email);
-        $customerName = get_selected_customer_using_firstlast($email);
+        $customer = get_selected_customer($email);
+
+        if (empty($_SESSION['customer']['customerID'])) {
+            $_SESSION['customer']['customerID'] = $customer['customerID'];
+            $_SESSION['customer']['firstName'] = $customer['firstName'];
+            $_SESSION['customer']['lastName'] = $customer['lastName'];
+            $_SESSION['customer']['email'] = $customer['email'];
+            $email = $_SESSION['customer']['email'];
+        }
+        header('Location .?action=skip_login');
         $products = get_products();
         include('register_product.php');
     }
 }
 
+else if ($action == 'skip_login') {
+    global $_SESSION;
+    $customer = $_SESSION['customer'];
+    $email = $_SESSION['customer']['email'];
+    $products = get_products();
+    include('register_product.php');
+}
+
 //Register the project
 else if ($action == 'register_product') {
-    $customer_id = filter_input(INPUT_POST, 'customerID');
+    $customer_id = $_SESSION['customer']['customerID'];
     $product_name = filter_input(INPUT_POST, 'product_list');
     $product = get_product_by_id($product_name);
     $product_code = $product['productCode'];
@@ -42,4 +69,9 @@ else if ($action == 'register_product') {
     include('register_product_confirmation.php');
 }
 
+else if ($action == 'logout') {
+    $_SESSION = [];
+    unset($_SESSION['customer']);
+    header('Location: .?action=customer_login');
+}
 ?>
