@@ -3,7 +3,7 @@ require('../model/database.php');
 require('../model/customer_db.php');
 require('../model/product_db.php');
 
-$lifetime = 60 * 60 * 24 * 365;
+$lifetime = 0;
 session_set_cookie_params($lifetime, '/');
 session_start();
 if (empty($_SESSION['customer'])) {
