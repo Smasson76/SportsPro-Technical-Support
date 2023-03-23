@@ -1,12 +1,16 @@
 <?php
-class Technician {
+class Technician
+{
+    private int $ID;
     private string $first_name;
     private string $last_name;
     private string $email;
     private string $phone;
     private string $password;
 
-    public function __construct() {
+    public function __construct()
+    {
+        $this->ID = 0;
         $this->first_name = '';
         $this->last_name = '';
         $this->email = '';
@@ -14,49 +18,68 @@ class Technician {
         $this->password = '';
     }
 
-    public function getFirstName() {
+    public function getID()
+    {
+        return $this->ID;
+    }
+
+    public function setID(int $value){
+        $this->ID = $value;
+    }
+
+    public function getFirstName()
+    {
         return $this->first_name;
     }
-    
-    public function setFirstName(string $value){
+
+    public function setFirstName(string $value)
+    {
         $this->first_name = $value;
     }
 
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->last_name;
     }
 
-    public function setLastName(string $value){
+    public function setLastName(string $value)
+    {
         $this->last_name = $value;
     }
- 
-    public function getEmail() {
+
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function setEmail(string $value){
+    public function setEmail(string $value)
+    {
         $this->email = $value;
     }
- 
-    public function getPhone() {
+
+    public function getPhone()
+    {
         return $this->phone;
     }
 
-    public function setPhone(string $value){
+    public function setPhone(string $value)
+    {
         $this->phone = $value;
     }
 
-    public function getPassword(){
+    public function getPassword()
+    {
         return $this->password;
     }
-    
-    public function setPassword(string $value){
+
+    public function setPassword(string $value)
+    {
         $this->password = $value;
     }
- 
-    public function getFullName(){
+
+    public function getFullName()
+    {
         $full = $this->first_name . ' ' . $this->last_name;
         return $full;
     }
-
 }
