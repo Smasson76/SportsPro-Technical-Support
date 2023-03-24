@@ -11,7 +11,7 @@ class Validate {
     }
 
     // Validate a generic text field and return the Field object
-    public function text($name, $value, $min = 1, $max = 255) {
+    public function text($name, $value, $min = 1, $max = 51) {
 
         // Get Field object and set its value
         $field = $this->fields->getField($name);
@@ -78,7 +78,7 @@ class Validate {
         if (!$field->hasError() && !$field->isEmpty()) {
             // Call the pattern method to validate a phone number
             $pattern = '/^\(\d{3}\) ?\d{3}-\d{4}$/';
-            $message = 'Invalid phone number.';
+            $message = 'Use (999) 999-9999 format.';
             $this->pattern($name, $value, $pattern, $message);
         }
     }
@@ -99,7 +99,7 @@ class Validate {
 
     public function password($name, $password) {
         // Get Field object and do text field check
-        $field = $this->text($name, $password, 8);   // minimum 8 characters
+        $field = $this->text($name, $password, 6);   // minimum 6 characters
 
         // if OK after text field check, move on to password check
         if (!$field->hasError() && !$field->isEmpty()) {
@@ -117,7 +117,7 @@ class Validate {
                 $pattern .= '(?=.*[' . $charClass . '])';
                 $valid .= $charClass;
             }
-            $valid .= ']{8,}';
+            $valid .= ']{6,}';
             $pattern .= $valid . '$/';
 
             $message = 'Must have one each of uppercase, lowercase, and digit.';

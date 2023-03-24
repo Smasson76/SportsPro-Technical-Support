@@ -8,14 +8,14 @@ require('../model/validate_customer_db.php');
 //Creating fields in the field class
 $validate = new Validate();
 $fields = $validate->getFields();
-$fields->addField('fnameVal', 'Must be between 1 and 51 characters.');
-$fields->addField('lnameVal', 'Must be between 1 and 51 characters.');
-$fields->addField('emailVal', 'Invalid domain name part.');
-$fields->addField('phoneVal', 'Use (999)999-9999.');
-$fields->addField('passwordVal', 'Too short.');
-$fields->addField('addressVal', 'Too short.');
-$fields->addField('cityVal', 'Too short.');
-$fields->addField('postalVal', 'Too short.');
+$fields->addField('fnameVal');
+$fields->addField('lnameVal');
+$fields->addField('emailVal');
+$fields->addField('phoneVal');
+$fields->addField('passwordVal');
+$fields->addField('addressVal');
+$fields->addField('cityVal');
+$fields->addField('postalVal');
 
 
 //Create an action that will filter through user buttons then call another function
