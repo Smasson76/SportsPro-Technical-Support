@@ -31,9 +31,11 @@ class Field {
     public function getHTML() {
         $message = htmlspecialchars($this->message);
         if ($this->hasError()) {
-            return '<span class="error">' . $message . '</span>';
+            // add error and css class tag
+            return '<span class="message error">' . $message . '</span>';
         } else {
-            return '<span>' . $message . '</span>';
+            // update to include css message tag
+            return '<span class="message">' . $message . '</span>';
         }
     }
 }

@@ -32,11 +32,12 @@ class Validate {
     }
 
     // Validate a postal text field and return the Field object
-    public function postal($postal, $value, $min = 1, $max = 21) {
+    public function postal($name, $value, $min = 1, $max = 21) {
 
         // Get Field object and set its value
-        $field = $this->fields->getField($postal);
-        $field->setValue($value);
+        $field = $this->text($name, $value, $min, $max);
+        //$field = $this->fields->getField($postal);
+        //$field->setValue($field);
         
         // Check field and set or clear error message
         if ($field->isRequired() && $field->isEmpty()) {
@@ -83,9 +84,9 @@ class Validate {
         }
     }
 
-    public function email($name, $value) {
+    public function email($name, $value, $min = 1, $max = 255) {
         // Get Field object and do text field check
-        $field = $this->text($name, $value);
+        $field = $this->text($name, $value, $min, $max);
 
         // if OK after text field check, move on to email check
         if (!$field->hasError() && !$field->isEmpty()) {
@@ -97,19 +98,22 @@ class Validate {
         }
     }
 
-    public function password($name, $password) {
+    public function password($name, $password, $min = 8, $max = 15) {
         // Get Field object and do text field check
-        $field = $this->text($name, $password, 8);   // minimum 8 characters
+        $field = $this->text($name, $password, $min, $max);   // default minimum 8 characters
+        
+        // commented out the following section of code as assignment spec
+        // does not have any further requirements for a password
 
         // if OK after text field check, move on to password check
-        if (!$field->hasError() && !$field->isEmpty()) {
+        /*if (!$field->hasError() && !$field->isEmpty()) {
 
             // Patterns to validate password
             $charClasses = [];
             $charClasses[] = '[:digit:]';
             $charClasses[] = '[:upper:]';
             $charClasses[] = '[:lower:]';    
-            // $charClasses[] = '_-';           // Don't require any special characters
+            $charClasses[] = '_-';           // Don't require any special characters
             
             $pattern = '/^';
             $valid = '[';
@@ -117,12 +121,12 @@ class Validate {
                 $pattern .= '(?=.*[' . $charClass . '])';
                 $valid .= $charClass;
             }
-            $valid .= ']{8,}';
+            $valid .= ']{' . $min . ',' . $max . '}';
             $pattern .= $valid . '$/';
 
             $message = 'Must have one each of uppercase, lowercase, and digit.';
             $this->pattern($name, $password, $pattern, $message);
-        }
+        } */
     }
 
     public function verify($name, $password, $verify) {

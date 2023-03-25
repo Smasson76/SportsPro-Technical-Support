@@ -36,7 +36,7 @@ else if ($action == 'login') {
         include('../errors/error.php');
     } else { 
         $customer = get_selected_customer($email);
-
+        
         if (empty($_SESSION['customer']['customerID'])) {
             $_SESSION['customer']['customerID'] = $customer['customerID'];
             $_SESSION['customer']['firstName'] = $customer['firstName'];
@@ -44,29 +44,35 @@ else if ($action == 'login') {
             $_SESSION['customer']['email'] = $customer['email'];
             $email = $_SESSION['customer']['email'];
         }
-        header('Location .?action=skip_login');
-        $products = get_products();
-        include('register_product.php');
+        header('Location: .?action=skip_login');
     }
 }
 
 else if ($action == 'skip_login') {
-    global $_SESSION;
+    //global $_SESSION;
     $customer = $_SESSION['customer'];
     $email = $_SESSION['customer']['email'];
+    //$products = get_customer_unregistered_products($_SESSION['customer']['customerID']);
     $products = get_products();
+    //var_dump($products);die();
     include('register_product.php');
 }
 
 //Register the project
 else if ($action == 'register_product') {
     $customer_id = $_SESSION['customer']['customerID'];
-    $product_name = filter_input(INPUT_POST, 'product_list');
-    $product = get_product_by_id($product_name);
-    $product_code = $product['productCode'];
+    //$product_name = filter_input(INPUT_POST, 'product_list');
+    $product_code = filter_input(INPUT_POST, 'product_list');
+    //$product_code = $product['productCode'];
     $date = date("Y-d-m");
-    register_product_to_database($customer_id, $product_code, $date);
-    include('register_product_confirmation.php');
+    $registered = is_product_registered($customer_id, $product_code);
+    
+    if(!$registered){
+        register_product_to_database($customer_id, $product_code, $date);
+    } else {
+        $product = get_product_by_id($product_code);
+        include('register_product_confirmation.php');
+    }
 }
 
 else if ($action == 'logout') {
