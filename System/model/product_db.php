@@ -12,13 +12,13 @@ function get_products() {
 }
 
 //Get product by ID
-function get_product_by_id($product_name) {
+function get_product_by_id($product_code) {
     //var_dump($product_name); die;
     global $db;
-    $query = 'SELECT productCode FROM products
-              WHERE products.name = :product_name';
+    $query = 'SELECT name FROM products
+              WHERE products.productCode = :product_code';
     $statement = $db->prepare($query);
-    $statement->bindValue(':product_name', $product_name);
+    $statement->bindValue(':product_code', $product_code);
     $statement->execute();
     $product = $statement->fetch();
     $statement->closeCursor();
@@ -64,7 +64,21 @@ function register_product_to_database($customer_id, $product_code, $date) {
     $statement->bindValue(':customer_id', $customer_id);
     $statement->bindValue(':product_code', $product_code);
     $statement->bindValue(':date', $date);
-    $statement->execute();
+    $product = $statement->execute();
+    var_dump($product);
     $statement->closeCursor();
+}
+
+//Get customer registered product by customer id and product code
+function is_product_registered($customer_id, $product_code){
+    global $db;
+    $query = 'SELECT  *
+    FROM    `registrations`
+    WHERE   customerID = '. $customer_id . '
+    AND     productCode = "'. $product_code . '"';
+    $statement = $db->prepare($query);
+    $products = $statement->execute();
+    $statement->closeCursor();
+    return $products;
 }
 ?>

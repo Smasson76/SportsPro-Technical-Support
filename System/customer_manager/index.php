@@ -8,14 +8,15 @@ require('../model/validate_customer_db.php');
 //Creating fields in the field class
 $validate = new Validate();
 $fields = $validate->getFields();
-$fields->addField('fnameVal', 'Must be between 1 and 51 characters.');
-$fields->addField('lnameVal', 'Must be between 1 and 51 characters.');
-$fields->addField('emailVal', 'Invalid domain name part.');
-$fields->addField('phoneVal', 'Use (999)999-9999.');
-$fields->addField('passwordVal', 'Too short.');
-$fields->addField('addressVal', 'Too short.');
-$fields->addField('cityVal', 'Too short.');
-$fields->addField('postalVal', 'Too short.');
+$fields->addField('fnameVal');
+$fields->addField('lnameVal');
+$fields->addField('addressVal');
+$fields->addField('cityVal');
+$fields->addField('stateVal');
+$fields->addField('postalVal');
+$fields->addField('phoneVal', '', FALSE);
+$fields->addField('emailVal');
+$fields->addField('passwordVal', '', FALSE);
 
 
 //Create an action that will filter through user buttons then call another function
@@ -74,7 +75,9 @@ else if ($action == 'select_customer') {
         $error = "Missing or incorrect customer id.";
         include('../errors/error.php');
     } else { 
-        get_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
+        $countries = get_countries();
+        //get_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
+        $customer = get_customer($customer_id);
         include('view_customer.php');
     }
 }
@@ -95,20 +98,37 @@ else if ($action == 'update_customer') {
     $password = filter_input(INPUT_POST, 'password');
 
     // Validate form data
-    $validate->email('emailVal', $email);
+    // Updated validation min/max to match spec
+    $validate->text('fnameVal', $first_name, 1, 50);
+    $validate->text('lnameVal', $last_name, 1, 50);
+    $validate->text('addressVal', $address, 1, 50);
+    $validate->text('cityVal', $city, 1, 50);
+    $validate->text('stateVal', $state, 1, 50);
+    $validate->postal('postalVal', $postal_code, 1, 20);
     $validate->phone('phoneVal', $phone);
-    $validate->password('passwordVal', $password);
-    $validate->text('fnameVal', $first_name);
-    $validate->text('lnameVal', $last_name);
-    $validate->text('addressVal', $address);
-    $validate->text('cityVal', $city);
-    $validate->postal('postalVal', $postal_code);
+    $validate->email('emailVal', $email, 1, 50);
+    $validate->password('passwordVal', $password, 6, 20);
 
+    $countries = get_countries();
+    
     // Load appropriate view based on hasErrors
     if ($fields->hasErrors()) {
+        $customer = [];
+        $customer['customerID'] = $customer_id;
+        $customer['firstName'] = $first_name;
+        $customer['lastName'] = $last_name;
+        $customer['address'] = $address;
+        $customer['city'] = $city;
+        $customer['state'] = $state;
+        $customer['postalCode'] = $postal_code;
+        $customer['countryCode'] = $country_code;
+        $customer['phone'] = $phone;
+        $customer['email'] = $email;
+        $customer['password'] = $password;
         include 'view_customer.php';
     } else {
         update_customer($customer_id, $first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
+        $customer = get_customer($customer_id);
         include 'view_customer.php';
     }
 }

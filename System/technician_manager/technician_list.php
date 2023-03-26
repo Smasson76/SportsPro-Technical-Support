@@ -5,8 +5,7 @@
         <!-- display a table of technicians -->
         <table>
             <tr><?php // remember the first and last name columns should be combined into one ?>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Password</th>
@@ -18,14 +17,13 @@
                 // Remember to replace the query results with method calls
                 // to get properties
                 ?>
-                <td><?php echo $technician['firstName']; ?></td>
-                <td><?php echo $technician['lastName']; ?></td>
-                <td><?php echo $technician['email']; ?></td>
-                <td><?php echo $technician['phone']; ?></td>
-                <td><?php echo $technician['password']; ?></td>
+                <td><?php echo $technician->getFullName(); ?></td>
+                <td><?php echo $technician->getEmail(); ?></td>
+                <td><?php echo $technician->getPhone(); ?></td>
+                <td><?php echo $technician->getPassword(); ?></td>
                 <td><form action="." method="post">
                     <input type="hidden" name="action" value="delete_technician">
-                    <input type="hidden" name="tech_id" value="<?php echo $technician['techID']; ?>">
+                    <input type="hidden" name="tech_id" value="<?php echo $technician->getID(); ?>">
                     <input type="submit" value="Delete">
                 </form></td>
             </tr>
