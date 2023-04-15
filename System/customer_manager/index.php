@@ -132,4 +132,9 @@ else if ($action == 'update_customer') {
         include 'view_customer.php';
     }
 }
+
+//Display the add customer form
+else if ($action == 'show_add_form') {
+    include('customer_add.php');    
+}
 ?>
