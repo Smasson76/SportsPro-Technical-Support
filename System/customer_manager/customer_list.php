@@ -4,13 +4,16 @@
 <!-- User search for customer -->
 <h1>Customer Search</h1>
 <form action="index.php" method="post" id="search_customer_form">
-        <input type="hidden" name="action" value="search_customer">
+    <input type="hidden" name="action" value="search_customer">
 
-        <label>Last Name:</label>
-        <input type="text" name="lastName" />
+    <label>Last Name:</label>
+    <input type="text" name="lastName" />
         
-        <input type="submit" value="Search" />
-    </form>
+    <input type="submit" value="Search" />
+</form>
+</br>
+<h1>Add a new customer</h1>
+<p><a href="index.php?action=show_add_form">Add Customer</a></p>
 
 <br>
 <h1>Results</h1>
