@@ -4,10 +4,6 @@
     <form action="index.php" method="post" id="add_customer_form">
         <input type="hidden" name="action" value="add_customer">
 
-        <label></label>
-        <input type="hidden" name="customerID"/>
-        <br>
-
         <label>First Name:</label>
         <input type="text" name="firstName"/>
         <br>
@@ -32,19 +28,17 @@
         <input type="text" name="postalCode"/>
         <br>
 
-        <!--
         <label>Country:</label>
         <select name="countryCode">
-        //<?php
-        //for ($i = 0; $i < sizeof($countries); $i++) {
+        <?php
+        for ($i = 0; $i < sizeof($countries); $i++) {
             $selected = '';
-        //    if($countries[$i]['countryCode'] == $customer['countryCode']){
-        //        $selected = ' selected';
-        //    }
-         //   echo '<option value="'. $countries[$i]['countryCode'] . '"' . $selected . '>' . $countries[$i]['countryName'] . '</option>';
-        //} ?></select>
+            if($countries[$i]['countryCode'] == $customer['countryCode']){
+                $selected = ' selected';
+            }
+            echo '<option value="'. $countries[$i]['countryCode'] . '"' . $selected . '>' . $countries[$i]['countryName'] . '</option>';
+        } ?></select>
         <br>
-        -->
 
         <label>Phone:</label>
         <input type="text" name="phone"/>
@@ -58,14 +52,13 @@
         <input type="text" name="password"/>
         <br>
         
-        <br>
         
         <label>&nbsp;</label>
-        <input type="submit" value="Add Product" />
+        <input type="submit" value="Add Customer" />
         <br><br>
     </form>
     <p class="last_paragraph">
-        <a href="?action=manage_products">View Product List</a>
+        <a href="?action=manage_customers">Search Customers</a>
     </p>
 
 </main>
