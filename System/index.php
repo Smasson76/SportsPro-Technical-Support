@@ -9,7 +9,7 @@
         <li><a href="customer_manager">Manage Customers</a></li>
         <li><a href="incident_create?action=get_customer">Create Incident</a></li>
         <li><a href="incident_assign">Assign Incident</a></li>
-        <li><a href="incident_create">Display Incidents</a></li>
+        <li><a href="incident_display?action=display_unassigned">Display Incidents</a></li>
     </ul>
 
     <h2>Technicians</h2>    

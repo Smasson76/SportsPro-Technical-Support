@@ -39,8 +39,8 @@ function create_incident($cid, $procode, $title, $descr) {
 
 function get_assigned_incidents($assigned = TRUE) {
     global $db;
-    $query = 'SELECT c.firstName, c.lastName, i.* ' .
-             'FROM customers AS c, incidents AS i ' .
+    $query = 'SELECT c.firstName, c.lastName, i.*, p.name ' .
+             'FROM customers AS c, (select inc.*, CONCAT_WS(\' \', t.firstName, t.lastName) AS techName FROM incidents inc JOIN technicians t ON inc.techID=t.techID) AS i JOIN products p ON i.productCode=p.productCode ' .
              'WHERE c.customerID = i.customerID ';
     if($assigned === FALSE){
         $query .= 'AND i.techID IS NULL ';
@@ -54,6 +54,20 @@ function get_assigned_incidents($assigned = TRUE) {
     $statement->closeCursor();
     return $incidents;
 }
+
+function get_unassigned_incidents() {
+    global $db;
+    $query = 'SELECT c.firstName, c.lastName, i.*, p.name ' .
+             'FROM customers AS c, incidents AS i JOIN products p ON i.productCode=p.productCode ' .
+             'WHERE c.customerID = i.customerID AND i.techID IS NULL';
+    
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $incidents = $statement->fetchAll();
+    $statement->closeCursor();
+    return $incidents;
+}
+
 
 function get_technicians() {
     global $db;
