@@ -132,4 +132,49 @@ else if ($action == 'update_customer') {
         include 'view_customer.php';
     }
 }
+
+//Display the add customer form
+else if ($action == 'show_add_form') {
+    $countries = get_countries();
+    include('customer_add.php');    
+}
+
+//Update the customers credentials
+//Redisplay the customers individual page
+else if ($action == 'add_customer') {
+    $first_name = filter_input(INPUT_POST, 'firstName');
+    $last_name = filter_input(INPUT_POST, 'lastName');
+    $address = filter_input(INPUT_POST, 'address');
+    $city = filter_input(INPUT_POST, 'city');
+    $state = filter_input(INPUT_POST, 'state');
+    $postal_code = filter_input(INPUT_POST, 'postalCode');
+    $country_code = filter_input(INPUT_POST, 'countryCode');
+    $phone = filter_input(INPUT_POST, 'phone');
+    $email = filter_input(INPUT_POST, 'email');
+    $password = filter_input(INPUT_POST, 'password');
+
+    if ($first_name == NULL || $last_name == NULL || $address == NULL || $city == NULL || $state == NULL || $postal_code == NULL || $country_code == NULL || $phone == NULL || $email == NULL || $password == NULL) {
+        $error = "Invalid customer data. Check all fields and try again.";
+        include('../errors/error.php');
+    }
+    else {
+        // Create a new customer object with no arguments
+
+        // Validate form data
+        // Updated validation min/max to match spec
+        $validate->text('fnameVal', $first_name, 1, 50);
+        $validate->text('lnameVal', $last_name, 1, 50);
+        $validate->text('addressVal', $address, 1, 50);
+        $validate->text('cityVal', $city, 1, 50);
+        $validate->text('stateVal', $state, 1, 50);
+        $validate->postal('postalVal', $postal_code, 1, 20);
+        $validate->phone('phoneVal', $phone);
+        $validate->email('emailVal', $email, 1, 50);
+        $validate->password('passwordVal', $password, 6, 20);
+
+        add_customer($first_name, $last_name, $address, $city, $state, $postal_code, $country_code, $phone, $email, $password);
+        //$customer = get_customer($customer_id);
+        header('Location: .?action=manage_customers'); //Display the products page
+    }
+}
 ?>

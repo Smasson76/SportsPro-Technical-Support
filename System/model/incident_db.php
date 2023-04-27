@@ -37,4 +37,73 @@ function create_incident($cid, $procode, $title, $descr) {
     $statement->closeCursor();
 }
 
+function get_assigned_incidents($assigned = TRUE) {
+    global $db;
+    $query = 'SELECT c.firstName, c.lastName, i.* ' .
+             'FROM customers AS c, incidents AS i ' .
+             'WHERE c.customerID = i.customerID ';
+    if($assigned === FALSE){
+        $query .= 'AND i.techID IS NULL ';
+    } else {
+        $query .= 'AND i.techID IS NOT NULL ';
+    }
+    
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $incidents = $statement->fetchAll();
+    $statement->closeCursor();
+    return $incidents;
+}
+
+function get_technicians() {
+    global $db;
+    $query = 'SELECT `technicians`.techID, firstName, lastName, count(`incidents`.`incidentID`) AS incidents 
+              FROM `technicians`
+                LEFT JOIN `incidents` 
+                ON `technicians`.`techID` = `incidents`.`techID`
+              GROUP BY `technicians`.`techID` 
+              ORDER BY incidents ASC';
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $technicians = $statement->fetchAll();
+    $statement->closeCursor();
+    return $technicians;
+}
+
+function get_incident($id){
+    global $db;
+    $query = 'SELECT c.firstName, c.lastName, i.incidentID, i.productCode ' .
+             'FROM customers AS c, incidents AS i ' .
+             'WHERE c.customerID = i.customerID ' .
+             'AND i.incidentID = :incident_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':incident_id', $id);
+    $statement->execute();
+    $incident = $statement->fetch();
+    return $incident;
+}
+
+function get_technician($id){
+    global $db;
+    $query = 'SELECT techID, firstName, lastName ' .
+             'FROM technicians ' .
+             'WHERE techID = :tech_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tech_id', $id);
+    $statement->execute();
+    $technician = $statement->fetch();
+    return $technician;
+
+}
+
+function assign_incident($incidentID, $techID){
+    global $db;
+    $query = 'UPDATE incidents
+              SET techID = :tech_id
+              WHERE incidentID = :incident_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':incident_id', $incidentID);
+    $statement->bindValue(':tech_id', $techID);
+    return $statement->execute();
+}
 ?>
