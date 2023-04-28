@@ -3,12 +3,17 @@
 //Get all technicians and display them
 function get_technicians() {
     global $db;
-    $query = 'SELECT * FROM technicians';
+    $query = 'SELECT `technicians`.techID, firstName, lastName, count(`incidents`.`incidentID`) AS incidents 
+              FROM `technicians`
+                LEFT JOIN `incidents` 
+                ON `technicians`.`techID` = `incidents`.`techID`
+              GROUP BY `technicians`.`techID` 
+              ORDER BY incidents ASC';
     $statement = $db->prepare($query);
     $statement->execute();
-    $technician = $statement->fetchAll();
+    $technicians = $statement->fetchAll();
     $statement->closeCursor();
-    return $technician;
+    return $technicians;
 }
 
 //Delete the selected technician by their tech_id parameter
@@ -38,5 +43,17 @@ function add_technician($first_name, $last_name, $email, $phone, $password) {
     $statement->bindValue(':password', $password);
     $statement->execute();
     $statement->closeCursor();
+}
+
+function get_technician_by_email($email){
+    global $db;
+    $query = 'SELECT * FROM technicians ' .
+             'WHERE email = :email';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':email', $email);
+    $statement->execute();
+    $technician = $statement->fetch();
+    $statement->closeCursor();
+    return $technician;
 }
 ?>

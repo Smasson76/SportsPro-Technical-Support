@@ -68,25 +68,10 @@ function get_unassigned_incidents() {
     return $incidents;
 }
 
-
-function get_technicians() {
-    global $db;
-    $query = 'SELECT `technicians`.techID, firstName, lastName, count(`incidents`.`incidentID`) AS incidents 
-              FROM `technicians`
-                LEFT JOIN `incidents` 
-                ON `technicians`.`techID` = `incidents`.`techID`
-              GROUP BY `technicians`.`techID` 
-              ORDER BY incidents ASC';
-    $statement = $db->prepare($query);
-    $statement->execute();
-    $technicians = $statement->fetchAll();
-    $statement->closeCursor();
-    return $technicians;
-}
-
 function get_incident($id){
     global $db;
-    $query = 'SELECT c.firstName, c.lastName, i.incidentID, i.productCode ' .
+    $query = 'SELECT c.firstName, c.lastName, i.incidentID, ' . 
+            'i.productCode, i.dateOpened, i.title, i.description ' .
              'FROM customers AS c, incidents AS i ' .
              'WHERE c.customerID = i.customerID ' .
              'AND i.incidentID = :incident_id';
@@ -120,4 +105,45 @@ function assign_incident($incidentID, $techID){
     $statement->bindValue(':tech_id', $techID);
     return $statement->execute();
 }
+
+function get_incidents_by_technician($techID){
+    global $db;
+    $query = 'SELECT * ' . 
+             'FROM incidents ' . 
+             'WHERE techID = :tech_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tech_id', $techID);
+    $statement->execute();
+    $incidents = $statement->fetchAll();
+    return $incidents;
+}
+
+function get_open_incidents_by_technician($techID){
+    global $db;
+    $query = 'SELECT * ' . 
+             'FROM incidents ' . 
+             'WHERE techID = :tech_id ' .
+             'AND dateClosed IS NULL' ;
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tech_id', $techID);
+    $statement->execute();
+    $incidents = $statement->fetchAll();
+    return $incidents;
+}
+
+function update_incident($incident_id, $date_closed, $description){
+    global $db;
+    $query = 'UPDATE incidents ' . 
+             'SET dateClosed = :date_closed, ' . 
+             'description = :desc ' .
+             'WHERE incidentID = :incident_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':incident_id', $incident_id);
+    $statement->bindValue(':date_closed', $date_closed);
+    $statement->bindValue(':desc', $description);
+    $status = $statement->execute();
+
+    return $status;
+}
+
 ?>

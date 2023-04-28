@@ -14,7 +14,7 @@
 
     <h2>Technicians</h2>    
     <ul>
-        <li><a href="under_construction.php">Update Incident</a></li>
+        <li><a href="incident_update">Update Incident</a></li>
     </ul>
 
     <h2>Customers</h2>
